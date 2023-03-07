@@ -2,10 +2,13 @@ const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
 
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
+
+const speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
 const spellNameEl = document.querySelector('#spell-name');
 const spellDescriptionEl = document.querySelector('#spell-description');
 let dataHolder;
+
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
@@ -57,3 +60,10 @@ searchApi(hpSpellApi);
 
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
+
+//Listener for TextToSpeech
+speechButton.addEventListener("click", function(){
+  var givenSpell = speechButton.nextElementSibling.textContent;
+
+  responsiveVoice.speak(givenSpell);
+});
