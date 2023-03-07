@@ -1,5 +1,6 @@
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
+var speechButton = document.querySelector("#textSpeechButton");
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
@@ -42,3 +43,10 @@ searchApi('https://hp-api.onrender.com/api/spells');
 
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
+
+//Listener for TextToSpeech
+speechButton.addEventListener("click", function(){
+  var givenSpell = speechButton.nextElementSibling.textContent;
+
+  responsiveVoice.speak(givenSpell);
+});
