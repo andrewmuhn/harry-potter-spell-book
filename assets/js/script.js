@@ -2,11 +2,8 @@ const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
 
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-
 const speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
-const spellNameEl = document.querySelector('#spell-name');
-const spellDescriptionEl = document.querySelector('#spell-description');
 let dataHolder;
 
 
@@ -43,12 +40,34 @@ const generateOptions = (data) => {
 //gets user selected spell and check to see if it matches the name of any spells from the server if it does it will change the 
 const handleFormSubmit = (event) => {
   event.preventDefault();
+  spellCardEl.innerHTML = '';
   let spell = spellSelectEl.value;
   for (let i = 0; i < dataHolder.length; i++) {
     if (dataHolder[i].name === spell) {
       let spellDescription = dataHolder[i].description;
-      spellDescriptionEl.textContent = spellDescription;
+
+      let cardEl = document.createElement('section');
+      cardEl.setAttribute('class', 'card');
+
+      let cardHeader = document.createElement('header');
+      let ttsButton = document.createElement('button');
+      ttsButton.setAttribute('id', 'textSpeechButton');
+      let ttsIcon = document.createElement('i');
+      ttsIcon.setAttribute('class', 'fa-solid fa-volume-high')
+
+      let spellNameEl = document.createElement('p');
+      spellNameEl.setAttribute('id', 'spell-name');
       spellNameEl.textContent = spell;
+
+      let spellDescriptionEl = document.createElement('p');
+      spellDescriptionEl.setAttribute('id', 'spell-description');
+      spellDescriptionEl.textContent = spellDescription;
+      ttsButton.append(ttsIcon)
+      cardHeader.append(ttsButton);
+      cardHeader.append(spellNameEl);
+      cardEl.append(cardHeader);
+      cardEl.append(spellDescriptionEl);
+      spellCardEl.append(cardEl);
     }
 
   }
@@ -62,7 +81,7 @@ searchApi(hpSpellApi);
 searchFormEl.addEventListener('submit', handleFormSubmit);
 
 //Listener for TextToSpeech
-speechButton.addEventListener("click", function(){
+speechButton.addEventListener("click", function () {
   var givenSpell = speechButton.nextElementSibling.textContent;
 
   responsiveVoice.speak(givenSpell);
