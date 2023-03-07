@@ -1,8 +1,9 @@
+const searchFormEl = document.querySelector('#search-form');
+const spellSelectEl = document.querySelector('#spell-select');
+const urlListEl = document.querySelector('#url-list');
 
-let spellSelectEl = document.querySelector('#spell-select');
-
+// * Fetch request 
 const searchApi = (requestUrl) => {
-
   fetch(requestUrl)
     .then((response) => {
 
@@ -11,23 +12,34 @@ const searchApi = (requestUrl) => {
     .then((data) => {
       console.log('Fetch Response \n----------------');
       console.log(data);
-      generateOptions(data);
+      if (requestUrl.includes('hp-api')) {
+        console.log('hp test');
+        generateOptions(data);
+      }
     })
 }
 
-
-
+//takes server response and extracts spell names and generates options out of them
 const generateOptions = (data) => {
-
   for (let i = 0; i < data.length; i++) {
     const spellName = data[i].name;
 
     let spellOptionEl = document.createElement('option');
-    spellOptionEl.value = spellName.toLowerCase();
+    spellOptionEl.value = spellName;
     spellOptionEl.textContent = spellName;
-
     spellSelectEl.append(spellOptionEl);
   }
 }
 
+//gets user selected spell
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+  let spell = spellSelectEl.value;
+}
+
+
+//Initial call to hp-api to get spell list
 searchApi('https://hp-api.onrender.com/api/spells');
+
+//listens for clicks on form submit button
+searchFormEl.addEventListener('submit', handleFormSubmit);
