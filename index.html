@@ -18,7 +18,6 @@
     <main>
         <form id="search-form">
             <select name="spells" id="spell-select">
-                <!-- TODO: Generate options from serverApi -->
             </select>
             <button type="submit">Search</button>
         </form>
@@ -26,9 +25,10 @@
             <section class="card">
                 <header>
                     <button>TTS</button>
-                    <p>Spell Name</p>
+                    <p id="spell-name">Spell Name</p>
                 </header>
-                <p>According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground.</p>
+                <p id="spell-description">According to all known laws of aviation, there is no way a bee should be able
+                    to fly. Its wings are too small to get its fat little body off the ground.</p>
             </section>
         </div>
         <!-- TODO: generate favorite list from local storage -->
