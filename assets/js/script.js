@@ -1,6 +1,5 @@
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-const urlListEl = document.querySelector('#url-list');
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
