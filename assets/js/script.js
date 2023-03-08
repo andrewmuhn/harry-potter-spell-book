@@ -1,6 +1,14 @@
+const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
+
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-var speechButton = document.querySelector("#textSpeechButton");
+
+const speechButton = document.querySelector("#textSpeechButton");
+const spellCardEl = document.querySelector('#spell-cards');
+const spellNameEl = document.querySelector('#spell-name');
+const spellDescriptionEl = document.querySelector('#spell-description');
+let dataHolder;
+
 var favoriteButton = document.querySelector("#favoriteButton");
 
 // * Fetch request 
@@ -16,6 +24,7 @@ const searchApi = (requestUrl) => {
       if (requestUrl.includes('hp-api')) {
         console.log('hp test');
         generateOptions(data);
+        dataHolder = data;
       }
     })
 }
@@ -32,10 +41,18 @@ const generateOptions = (data) => {
   }
 }
 
-//gets user selected spell
+//gets user selected spell and check to see if it matches the name of any spells from the server if it does it will change the 
 const handleFormSubmit = (event) => {
   event.preventDefault();
   let spell = spellSelectEl.value;
+  for (let i = 0; i < dataHolder.length; i++) {
+    if (dataHolder[i].name === spell) {
+      let spellDescription = dataHolder[i].description;
+      spellDescriptionEl.textContent = spellDescription;
+      spellNameEl.textContent = spell;
+    }
+
+  }
 }
 
 //Activates when a card is pressed
@@ -44,7 +61,7 @@ function favoriteCard(){
 }
 
 //Initial call to hp-api to get spell list
-searchApi('https://hp-api.onrender.com/api/spells');
+searchApi(hpSpellApi);
 
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
