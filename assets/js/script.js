@@ -2,7 +2,6 @@ const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
 
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-
 const speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
 const spellNameEl = document.querySelector('#spell-name');
