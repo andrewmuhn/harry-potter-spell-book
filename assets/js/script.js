@@ -1,6 +1,7 @@
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
 var speechButton = document.querySelector("#textSpeechButton");
+var favoriteButton = document.querySelector("#favoriteButton");
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
@@ -37,6 +38,10 @@ const handleFormSubmit = (event) => {
   let spell = spellSelectEl.value;
 }
 
+//Activates when a card is pressed
+function favoriteCard(){
+  
+}
 
 //Initial call to hp-api to get spell list
 searchApi('https://hp-api.onrender.com/api/spells');
@@ -50,3 +55,6 @@ speechButton.addEventListener("click", function(){
 
   responsiveVoice.speak(givenSpell);
 });
+
+//Listener for favoriting spells
+favoriteButton.addEventListener("click", favoriteCard());
