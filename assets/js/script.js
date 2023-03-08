@@ -4,6 +4,8 @@ const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
 const speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
+const spellNameEl = document.querySelector('#spell-name');
+const spellDescriptionEl = document.querySelector('#spell-description');
 let dataHolder;
 
 var favoriteButton = document.querySelector("#favoriteButton");
@@ -86,6 +88,8 @@ const handleFormSubmit = (event) => {
 
 //Activates when a card is pressed
 function favoriteCard(){
+  var spellID = 
+
   
 }
 
@@ -97,7 +101,8 @@ searchFormEl.addEventListener('submit', handleFormSubmit);
 
 //Listener for TextToSpeech
 speechButton.addEventListener("click", function () {
-  var givenSpell = speechButton.nextElementSibling.textContent;
+  var givenSpell = document.getElementById('spell-name');
+  console.log(givenSpell);
 
   responsiveVoice.speak(givenSpell);
 });
