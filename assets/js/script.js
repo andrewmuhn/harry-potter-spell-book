@@ -5,8 +5,8 @@ const spellCardEl = document.querySelector('#spell-cards');
 const spellNameEl = document.querySelector('#spell-name');
 const spellDescriptionEl = document.querySelector('#spell-description');
 const favSpellCardEl = document.querySelector('.favCards');
+let localStoreArray = [];
 
-let favCounter = 0;
 let dataHolder;
 
 // * Fetch request 
@@ -23,6 +23,7 @@ const searchApi = (requestUrl) => {
         dataHolder = data;
         generateOptions(data);
         displayRandomCard(data);
+        showFavorites(data);
       }
     })
 }
@@ -128,12 +129,12 @@ const handleFormSubmit = (event) => {
 const checkFavDupes = (count, list) => {
   //Checks for duplicate card in list
   var spellName = document.querySelector("#spell-name").textContent;
-  console.log("Dupe Function Called");
-  console.log("Checking for: " + spellName);
+  var spellArray = [];
 
   for(var i = 0; i < count; i++){
-    console.log("Checking against: " + list.item(i).textContent);
     if(list[i].textContent.includes(spellName)){
+      spellArray.push(list[i]);
+      console.log(spellArray);
       console.log("Dupe Found, ignoring addition of card.");
       return;
     }
@@ -143,6 +144,9 @@ const checkFavDupes = (count, list) => {
   console.log("No Dupes Found.");
   for (let i = 0; i < dataHolder.length; i++) {
     if (dataHolder[i].name === spellName) {
+      localStoreArray = JSON.parse(localStorage.getItem('FavoriteSpells'));
+      localStoreArray.push(spellName);
+      localStorage.setItem('FavoriteSpells', JSON.stringify(localStoreArray));
       newFavCard(i, dataHolder);
       return;
     }
@@ -153,12 +157,7 @@ const checkFavDupes = (count, list) => {
 const favoriteCard = () => {
   var spellName = document.querySelector("#spell-name").textContent;
 
-  localStorage.setItem("favSpell" + favCounter, spellName);
-  //increments favCounter for this current session
-  favCounter = favCounter + 1;
-  
-  console.log("List length is: " + favSpellCardEl.children.length);
-  favSpells = favSpellCardEl.children
+  favSpells = favSpellCardEl.children;
   favSpellsCount = favSpells.length;
 
   //Checks if the list of spells is empty or not.
@@ -167,6 +166,8 @@ const favoriteCard = () => {
     //finds specific spell and passes it in for this session.
     for (let i = 0; i < dataHolder.length; i++) {
       if (dataHolder[i].name === spellName) {
+        localStoreArray.push(spellName);
+        localStorage.setItem('FavoriteSpells', JSON.stringify(localStoreArray));
         newFavCard(i, dataHolder);
       }
     }
@@ -177,20 +178,25 @@ const favoriteCard = () => {
 }
 
 //Generates favorites from local storage and counts favorites
-function showFavorites(){
-  for(var i = 0; i < dataHolder.length; i++){
-    if(localStorage.getItem("favSpell" + favCounter)){
-      favCounter = favCounter + 1;
-      newFavCard(i, dataHolder);
+function showFavorites(data){
+  const favCardsArray = JSON.parse(localStorage.getItem('FavoriteSpells'));
+  if(!favCardsArray){
+    return;
+  }
+
+  for(var i = 0; i < favCardsArray.length; i++){
+    var spellName = favCardsArray[i];
+    console.log(spellName);
+    for (var j = 0; j < data.length; j++) {
+      if (data[j].name === spellName) {
+        newFavCard(j, data);
+      }
     }
   }
 }
 
 //Initial call to hp-api to get spell list
 searchApi(hpSpellApi);
-
-//Shows favorite cards on page load
-// showFavorites();
 
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
