@@ -1,14 +1,12 @@
 const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
-
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-let speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
 const spellNameEl = document.querySelector('#spell-name');
 const spellDescriptionEl = document.querySelector('#spell-description');
-let dataHolder;
 
-var favoriteButton = document.querySelector("#favoriteButton");
+let favCounter = 0;
+let dataHolder;
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
@@ -60,13 +58,22 @@ const newCard = (index, data) => {
   let spellDescriptionEl = document.createElement('p');
   spellDescriptionEl.setAttribute('id', 'spell-description');
   spellDescriptionEl.textContent = spellDescription;
+  let favoriteButton = document.createElement('button');
+  favoriteButton.setAttribute('id', 'favoriteButton');
+  favoriteButton.textContent = 'Favorite';
+
   ttsButton.append(ttsIcon);
   cardHeader.append(ttsButton);
   cardHeader.append(spellNameEl);
   cardEl.append(cardHeader);
   cardEl.append(spellDescriptionEl);
   spellCardEl.append(cardEl);
+  cardEl.append(favoriteButton);
+}
 
+//handles dom manip and creation of favorite list card
+const newFavCard = (index, data) => {
+  let spellName = data[index].name;
 }
 
 //displays a random card on load
@@ -93,13 +100,34 @@ const handleFormSubmit = (event) => {
 
 //Activates when a card is pressed
 function favoriteCard(){
-  var spellID = 
+  var spellName = document.querySelector("#spell-name");
+  localStorage.setItem("favSpell" + favCounter, spellName);
+  //increments favCounter for this current session
+  favCounter = favCounter + 1;
 
-  
+  //finds specific spell and passes it in for this session.
+  for (let i = 0; i < dataHolder.length; i++) {
+    if (dataHolder[i].name === spellName) {
+      newFavCard(i, dataHolder);
+    }
+  }
+}
+
+//Generates favorites from local storage and counts favorites
+function showFavorites(){
+  for(var i = 0; i < dataHolder.length; i++){
+    if(localStorage.getItem("favSpell" + favCounter)){
+      favCounter = favCounter + 1;
+      newFavCard(i, dataHolder);
+    }
+  }
 }
 
 //Initial call to hp-api to get spell list
 searchApi(hpSpellApi);
+
+//Shows favorite cards on page load
+// showFavorites();
 
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
@@ -111,4 +139,10 @@ const enableTTS = () => {
     var givenSpell = speechButton.nextElementSibling.textContent;
     responsiveVoice.speak(givenSpell);
   });
+}
+
+// //Listener for Favorite Button
+const favoriteButton = () => {
+  favButton = document.querySelector("#favoriteButton");
+  favButton.addEventListener("click", favoriteCard());
 }
