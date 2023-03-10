@@ -6,14 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harry Potter Spell Book</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Signika">
+    <link href="https://fonts.cdnfonts.com/css/harry-potter" rel="stylesheet">      
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body>
     <header>
-        <div class="text-[36px] font-bold">
+        <div class="text-[56px] font-bold">
             <h1>Harry Potter Spell Book</h1>
         </div>
         <a href="https://github.com/andrewmuhn/harry-potter-spell-book"><span>Git Hub Repo</span></a>
@@ -21,29 +23,28 @@
     <main>
         <form id="search-form">
             <select name="spells" id="spell-select">
-            <!--<div class="border border-solid border-neutral-300 rounded-lg">-->
             </select>
-            <div class="py-1 px-4 mx-5 my-8 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
+            <div class="py-1 px-4 ml-40 my-8 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
                 <button type="submit">Search</button>
             </div>
         </form>
+        <div>
+        <div class="mt-5 ml-20 py-2 px-2 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
+            <button id="textSpeechButton">Listen</button>
+        </div>
         <div id="spell-cards">
             <div class="w-1/2 border-solid border-black-300 rounded-lg shadow-xl dark:bg-gray-800">
             <!--<section class="card">-->
                 <header>
-                    <div class="mt-5 py-2 px-2 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
-                        <button id="textSpeechButton">TTS</button>
-                    </div>
-                    <div class="text-[20px] py-4 my-4 text-center bg-violet-200">
+                    <div class="text-[24px] font-extrabold py-4 my-4 text-justify bg-violet-200">
                         <p id="spell-name">Spell Name</p>
                     </div>
                 </header>
-                <div class="text-[18px] py-2 text-center text-lg"></div>
+                <div class="text-[22px] py-2 text-justify text-lg"></div>
                     <p id="spell-description">According to all known laws of aviation, there is no way a bee should be able
                     to fly. Its wings are too small to get its fat little body off the ground.</p>
                 </div>
-            </section>
-            </div>
+            <</section>
         </div>
         <!-- TODO: generate favorite list from local storage -->
     </main>
