@@ -74,7 +74,6 @@ const newCard = (index, data) => {
 
 //handles dom manip and creation of favorite list card
 const newFavCard = (index, data) => {
-  console.log("Creating Card");
   let spellName = data[index].name;
   let spellDescription = data[index].description;
 
@@ -125,21 +124,55 @@ const handleFormSubmit = (event) => {
   favoriteButton();
 }
 
+//Checks when theres cards present in the favorite list
+const checkFavDupes = (count, list) => {
+  //Checks for duplicate card in list
+  var spellName = document.querySelector("#spell-name").textContent;
+  console.log("Dupe Function Called");
+  console.log("Checking for: " + spellName);
+
+  for(var i = 0; i < count; i++){
+    console.log("Checking against: " + list.item(i).textContent);
+    if(list[i].textContent.includes(spellName)){
+      console.log("Dupe Found, ignoring addition of card.");
+      return;
+    }
+  }
+  
+  //If none were found, finds card and adds it.
+  console.log("No Dupes Found.");
+  for (let i = 0; i < dataHolder.length; i++) {
+    if (dataHolder[i].name === spellName) {
+      newFavCard(i, dataHolder);
+      return;
+    }
+  }
+}
+
 //Activates when a card is pressed
 const favoriteCard = () => {
-  console.log("Favorite Button Registered");
   var spellName = document.querySelector("#spell-name").textContent;
-  console.log(spellName);
 
   localStorage.setItem("favSpell" + favCounter, spellName);
   //increments favCounter for this current session
   favCounter = favCounter + 1;
+  
+  console.log("List length is: " + favSpellCardEl.children.length);
+  favSpells = favSpellCardEl.children
+  favSpellsCount = favSpells.length;
 
-  //finds specific spell and passes it in for this session.
-  for (let i = 0; i < dataHolder.length; i++) {
-    if (dataHolder[i].name === spellName) {
-      newFavCard(i, dataHolder);
+  //Checks if the list of spells is empty or not.
+  //If it is not empty, run CheckFavDupes().
+  if(favSpellsCount === 0){
+    //finds specific spell and passes it in for this session.
+    for (let i = 0; i < dataHolder.length; i++) {
+      if (dataHolder[i].name === spellName) {
+        newFavCard(i, dataHolder);
+      }
     }
+  }else{
+    //Looks for duplicate favorites
+    checkFavDupes(favSpellsCount, favSpells);
   }
 }
 
@@ -175,7 +208,6 @@ const enableTTS = () => {
 const favoriteButton = () => {
   favButton = document.querySelector("#favoriteButton");
   favButton.addEventListener("click", function(){
-    console.log("Favorite clicked.");
     favoriteCard();
   });
 }
