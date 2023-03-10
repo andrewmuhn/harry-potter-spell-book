@@ -3,38 +3,54 @@
     --spellDescriptionInline: 200px;
 }
 
+h1 {
+    font-family: 'Harry Potter', sans-serif;    
+    color: #e6e600;
+}
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+#search-form {
+    margin-left: 50px;
+}
+
 .card {
     border-style: solid;
     border-width: 1px;
     padding: 10px;
-    margin: 10px;
+    margin-left: 140px;
     box-shadow: 5px 5px rgb(34, 34, 34);
     border-radius: 10px;
     filter: drop-shadow(5px 5px 1rem rgb(160, 172, 177));
     height: 400px;
-    width: 200px;
+    width: 250px;
 }
 
 .card header {
     justify-content: center;
     align-items: center;
     border-radius: 25px 25px 25px 25px;
-    background-color: rgb(116, 116, 157);
+    background-color: #ffffb3;
 }
 
 .card header p {
     inline-size: var(--spellTitleInline);
     word-wrap: break-word;
+    font-size: 26px;
+    text-align: center;
 }
 
 .card p {
     inline-size: var(--spellDescriptionInline);
     word-wrap: normal;
     text-align: center;
+    margin-top: 10px;
+}
+
+#spell-name, #spell-description {
+    font-family: 'Signika', sans-serif;
 }
