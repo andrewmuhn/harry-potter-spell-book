@@ -1,11 +1,13 @@
 const hpSpellApi = 'https://hp-api.onrender.com/api/spells'
-
 const searchFormEl = document.querySelector('#search-form');
 const spellSelectEl = document.querySelector('#spell-select');
-let speechButton = document.querySelector("#textSpeechButton");
 const spellCardEl = document.querySelector('#spell-cards');
-let dataHolder;
+const spellNameEl = document.querySelector('#spell-name');
+const spellDescriptionEl = document.querySelector('#spell-description');
+const favSpellCardEl = document.querySelector('.favCards');
+let localStoreArray = [];
 
+let dataHolder;
 
 // * Fetch request 
 const searchApi = (requestUrl) => {
@@ -18,9 +20,10 @@ const searchApi = (requestUrl) => {
       console.log('Fetch Response \n----------------');
       console.log(data);
       if (requestUrl.includes('hp-api')) {
+        dataHolder = data;
         generateOptions(data);
         displayRandomCard(data);
-        dataHolder = data;
+        showFavorites(data);
       }
     })
 }
@@ -57,13 +60,63 @@ const newCard = (index, data) => {
   let spellDescriptionEl = document.createElement('p');
   spellDescriptionEl.setAttribute('id', 'spell-description');
   spellDescriptionEl.textContent = spellDescription;
+  let favoriteButton = document.createElement('button');
+  favoriteButton.setAttribute('id', 'favoriteButton');
+  favoriteButton.setAttribute('class', 'bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded');
+  favoriteButton.textContent = 'Favorite';
+
   ttsButton.append(ttsIcon);
   cardHeader.append(ttsButton);
   cardHeader.append(spellNameEl);
   cardEl.append(cardHeader);
   cardEl.append(spellDescriptionEl);
   spellCardEl.append(cardEl);
+  cardEl.append(favoriteButton);
 
+  ttsButton.addEventListener('click', function () {
+    responsiveVoice.speak(spellName);
+  });
+}
+
+//handles dom manip and creation of favorite list card
+const newFavCard = (index, data, i) => {
+  let spellName = data[index].name;
+  let spellDescription = data[index].description;
+
+  let cardEl = document.createElement('section');
+  cardEl.setAttribute('class', 'card');
+
+  let cardHeader = document.createElement('header');
+  let ttsButton = document.createElement('button');
+  ttsButton.setAttribute('id', 'favTextSpeechButton');
+  let ttsIcon = document.createElement('i');
+  ttsIcon.setAttribute('class', 'fa-solid fa-volume-high')
+
+  let spellNameEl = document.createElement('p');
+  spellNameEl.setAttribute('id', 'spell-name');
+  spellNameEl.textContent = spellName;
+
+  let spellDescriptionEl = document.createElement('p');
+  spellDescriptionEl.setAttribute('id', 'spell-description');
+  spellDescriptionEl.textContent = spellDescription;
+  let unfavoriteButton = document.createElement('button');
+
+  unfavoriteButton.setAttribute('class', 'unFavoriteButton bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded');
+  unfavoriteButton.setAttribute('data-index', i);
+  unfavoriteButton.textContent = 'Unfavorite';
+
+  ttsButton.append(ttsIcon);
+  cardHeader.append(ttsButton);
+  cardHeader.append(spellNameEl);
+  cardEl.append(cardHeader);
+  cardEl.append(spellDescriptionEl);
+  favSpellCardEl.append(cardEl);
+  cardEl.append(unfavoriteButton);
+
+  ttsButton.addEventListener('click', function () {
+    responsiveVoice.speak(spellName);
+  });
+  unfavoriteButton.addEventListener('click', handleDelete);
 }
 
 //displays a random card on load
@@ -71,7 +124,7 @@ const displayRandomCard = (data) => {
   spellCardEl.innerHTML = '';
   let randomIndex = Math.floor(Math.random() * 78);
   newCard(randomIndex, data);
-  enableTTS();
+  favoriteButton();
 }
 
 //gets user selected spell and check to see if it matches the name of any spells from the server if it does it will change the 
@@ -85,7 +138,90 @@ const handleFormSubmit = (event) => {
     }
 
   }
-  enableTTS();
+  favoriteButton();
+}
+
+//Checks when theres cards present in the favorite list
+const checkFavDupes = (count, list) => {
+  //Checks for duplicate card in list
+  var spellName = document.querySelector("#spell-name").textContent;
+  var spellArray = [];
+
+  for (var i = 0; i < count; i++) {
+    if (list[i].textContent.includes(spellName)) {
+      spellArray.push(list[i]);
+      console.log(spellArray);
+      console.log("Dupe Found, ignoring addition of card.");
+      return;
+    }
+  }
+
+  //If none were found, finds card and adds it.
+  console.log("No Dupes Found.");
+  for (let i = 0; i < dataHolder.length; i++) {
+    if (dataHolder[i].name === spellName) {
+      localStoreArray = JSON.parse(localStorage.getItem('FavoriteSpells'));
+      localStoreArray.push(spellName);
+      localStorage.setItem('FavoriteSpells', JSON.stringify(localStoreArray));
+      newFavCard(i, dataHolder);
+      return;
+    }
+  }
+}
+
+//Activates when a card is pressed
+const favoriteCard = () => {
+  var spellName = document.querySelector("#spell-name").textContent;
+
+  favSpells = favSpellCardEl.children;
+  favSpellsCount = favSpells.length;
+
+  //Checks if the list of spells is empty or not.
+  //If it is not empty, run CheckFavDupes().
+  if (favSpellsCount === 0) {
+    //finds specific spell and passes it in for this session.
+    for (let i = 0; i < dataHolder.length; i++) {
+      if (dataHolder[i].name === spellName) {
+        localStoreArray.push(spellName);
+        localStorage.setItem('FavoriteSpells', JSON.stringify(localStoreArray));
+        newFavCard(i, dataHolder);
+      }
+    }
+  } else {
+    //Looks for duplicate favorites
+    checkFavDupes(favSpellsCount, favSpells);
+  }
+}
+
+//Generates favorites from local storage and counts favorites
+function showFavorites(data) {
+  const favCardsArray = JSON.parse(localStorage.getItem('FavoriteSpells'));
+  if (!favCardsArray) {
+    return;
+  }
+
+  for (var i = 0; i < favCardsArray.length; i++) {
+    var spellName = favCardsArray[i];
+    console.log(spellName);
+    for (var j = 0; j < data.length; j++) {
+      if (data[j].name === spellName) {
+        newFavCard(j, data, i);
+      }
+    }
+  }
+}
+
+const handleDelete = (event) => {
+  let spellIndex = event.target.getAttribute('data-index');
+  let storedSpells = JSON.parse(localStorage.getItem('FavoriteSpells'));
+  console.log(event.target);
+  console.log(spellIndex);
+  console.log(storedSpells);
+  storedSpells.splice(spellIndex, 1);
+  console.log(storedSpells);
+  localStorage.setItem('FavoriteSpells', JSON.stringify(storedSpells));
+  favSpellCardEl.innerHTML = '';
+  showFavorites(dataHolder);
 }
 
 //Initial call to hp-api to get spell list
@@ -94,11 +230,11 @@ searchApi(hpSpellApi);
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
 
-//Listener for TextToSpeech
-const enableTTS = () => {
-  speechButton = document.querySelector("#textSpeechButton");
-  speechButton.addEventListener("click", function () {
-    var givenSpell = speechButton.nextElementSibling.textContent;
-    responsiveVoice.speak(givenSpell);
+//Listener for Favorite Button
+const favoriteButton = () => {
+  favButton = document.querySelector("#favoriteButton");
+  favButton.addEventListener("click", function () {
+    favoriteCard();
   });
 }
+

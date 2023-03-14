@@ -6,36 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harry Potter Spell Book</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Signika">
+    <link href="https://fonts.cdnfonts.com/css/harry-potter" rel="stylesheet">      
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <!--Importing Tailwind-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--Logo for Text To Speech button-->
     <script src="https://kit.fontawesome.com/bdeab18989.js" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-    <header>
-        <h1>Harry Potter Spell Book</h1>
-        <a href="https://github.com/andrewmuhn/harry-potter-spell-book"><span>Git Hub Repo</span></a>
+    <div class="bg-[url('./assets/images/parchment-paper.jpg')] bg-no-repeat bg-cover bg-center h-screen">
+    <header class="bg-slate-900">
+        <div class="text-[56px] font-bold">
+            <h1>Harry Potter Spell Book</h1>
+        </div>
+        <a class="text-[28px] font-bold text-white" href="https://github.com/andrewmuhn/harry-potter-spell-book"><span>Git Hub Repo</span></a>
     </header>
     <main>
-        <form id="search-form">
-            <select name="spells" id="spell-select">
-            </select>
-            <button type="submit">Search</button>
+        <form class="bg-slate-700 pl-4" id="search-form">
+            <select name="spells" id="spell-select"></select>
+            <div class="py-1 px-4 my-4 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
+                <button type="submit">Search</button>
+            </div>
         </form>
+        <!--Card for each spell being displayed-->
         <div id="spell-cards">
-            <section class="card">
-                <header>
-                    <button id="textSpeechButton">TTS</button>
-                    <p id="spell-name">Spell Name</p>
-                </header>
-                <p id="spell-description">According to all known laws of aviation, there is no way a bee should be able
-                    to fly. Its wings are too small to get its fat little body off the ground.</p>
-            </section>
+            <div class="w-1/2 border-solid border-black-300 rounded-lg shadow-xl dark:bg-gray-800"></div>
         </div>
-        <!-- TODO: generate favorite list from local storage -->
+        <!-- TODO: generate favorite list from local storage -->      
+        <!--Favorite cards listed-->
+        <div id="favorite-spells">
+            <header class="bg-slate-900">
+                <div class="ml-4 text-lg font-bold font-sans">
+                    <h2 class="text-[28px] font-bold text-white">Favorite Spells</h2>
+                </div>
+            </header>
+
+            <section class="favCards"></section>
+
+        </div>
     </main>
+    
     <script src="assets/js/script.js"></script>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=2fAcRS6A"></script>
+    </div>
 </body>
 
 </html>
