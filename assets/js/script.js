@@ -114,6 +114,7 @@ const newFavCard = (index, data, i) => {
   ttsButton.addEventListener('click', function () {
     responsiveVoice.speak(spellName);
   });
+  unfavoriteButton.addEventListener('click', handleDelete);
 }
 
 //displays a random card on load
@@ -236,4 +237,3 @@ const favoriteButton = () => {
   });
 }
 
-favSpellCardEl.addEventListener('click', handleDelete)
