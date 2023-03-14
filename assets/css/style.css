@@ -3,10 +3,6 @@
     --spellDescriptionInline: 200px;
 }
 
-body {
-    background-image: url('./assets/images/parchment-paper.jpg');
-}
-
 h1 {
     font-family: 'Harry Potter', sans-serif;
     color: #ffffff;
@@ -61,4 +57,11 @@ header {
 #spell-name,
 #spell-description {
     font-family: 'Signika', sans-serif;
+}
+
+.favCards {
+    display: grid;
+    grid-auto-flow: column;
+
+    overflow-x: auto;
 }
