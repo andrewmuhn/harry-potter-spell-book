@@ -71,6 +71,10 @@ const newCard = (index, data) => {
   cardEl.append(spellDescriptionEl);
   spellCardEl.append(cardEl);
   cardEl.append(favoriteButton);
+
+  ttsButton.addEventListener('click', function(){
+    responsiveVoice.speak(spellName);
+  });
 }
 
 //handles dom manip and creation of favorite list card
@@ -82,6 +86,10 @@ const newFavCard = (index, data) => {
   cardEl.setAttribute('class', 'card');
 
   let cardHeader = document.createElement('header');
+  let ttsButton = document.createElement('button');
+  ttsButton.setAttribute('id', 'favTextSpeechButton');
+  let ttsIcon = document.createElement('i');
+  ttsIcon.setAttribute('class', 'fa-solid fa-volume-high')
   
   let spellNameEl = document.createElement('p');
   spellNameEl.setAttribute('id', 'spell-name');
@@ -94,11 +102,17 @@ const newFavCard = (index, data) => {
   unfavoriteButton.setAttribute('id', 'unFavoriteButton');
   unfavoriteButton.textContent = 'unFavorite';
 
+  ttsButton.append(ttsIcon);
+  cardHeader.append(ttsButton);
   cardHeader.append(spellNameEl);
   cardEl.append(cardHeader);
   cardEl.append(spellDescriptionEl);
   favSpellCardEl.append(cardEl);
   cardEl.append(unfavoriteButton);
+
+  ttsButton.addEventListener('click', function(){
+    responsiveVoice.speak(spellName);
+  });
 }
 
 //displays a random card on load
@@ -106,7 +120,6 @@ const displayRandomCard = (data) => {
   spellCardEl.innerHTML = '';
   let randomIndex = Math.floor(Math.random() * 78);
   newCard(randomIndex, data);
-  enableTTS();
   favoriteButton();
 }
 
@@ -121,7 +134,6 @@ const handleFormSubmit = (event) => {
     }
 
   }
-  enableTTS();
   favoriteButton();
 }
 
@@ -190,6 +202,7 @@ function showFavorites(data){
     for (var j = 0; j < data.length; j++) {
       if (data[j].name === spellName) {
         newFavCard(j, data);
+        
       }
     }
   }
@@ -201,16 +214,7 @@ searchApi(hpSpellApi);
 //listens for clicks on form submit button
 searchFormEl.addEventListener('submit', handleFormSubmit);
 
-//Listener for TextToSpeech
-const enableTTS = () => {
-  speechButton = document.querySelector("#textSpeechButton");
-  speechButton.addEventListener("click", function () {
-    var givenSpell = speechButton.nextElementSibling.textContent;
-    responsiveVoice.speak(givenSpell);
-  });
-}
-
-// //Listener for Favorite Button
+//Listener for Favorite Button
 const favoriteButton = () => {
   favButton = document.querySelector("#favoriteButton");
   favButton.addEventListener("click", function(){
