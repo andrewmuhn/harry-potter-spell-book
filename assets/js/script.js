@@ -201,8 +201,7 @@ function showFavorites(data){
     console.log(spellName);
     for (var j = 0; j < data.length; j++) {
       if (data[j].name === spellName) {
-        newFavCard(j, data);
-        
+        newFavCard(j, data);      
       }
     }
   }
