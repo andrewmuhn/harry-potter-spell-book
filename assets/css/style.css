@@ -64,3 +64,14 @@ header {
 #spell-name, #spell-description {
     font-family: 'Signika', sans-serif;
 }
+
+#favorite-spells {
+
+}
+
+.favCards {
+    display: grid;
+    grid-auto-flow: column;
+
+    overflow-x: auto;
+}

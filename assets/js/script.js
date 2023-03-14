@@ -100,6 +100,7 @@ const newFavCard = (index, data, i) => {
   spellDescriptionEl.textContent = spellDescription;
   let unfavoriteButton = document.createElement('button');
 
+  unfavoriteButton.setAttribute('data-index', i);
   unfavoriteButton.setAttribute('id', 'unFavoriteButton');
   unfavoriteButton.textContent = 'Unfavorite';
 
@@ -204,7 +205,6 @@ function showFavorites(data) {
     for (var j = 0; j < data.length; j++) {
       if (data[j].name === spellName) {
         newFavCard(j, data, i);
-
       }
     }
   }
