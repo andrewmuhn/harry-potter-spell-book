@@ -16,34 +16,31 @@
 
 <body>
     <div class="bg-[url('./assets/images/parchment-paper.jpg')] bg-no-repeat bg-cover bg-center h-screen">
-    <header>
+    <header class="bg-slate-900">
         <div class="text-[56px] font-bold">
             <h1>Harry Potter Spell Book</h1>
         </div>
-        <a href="https://github.com/andrewmuhn/harry-potter-spell-book"><span>Git Hub Repo</span></a>
+        <a class="text-[28px] font-bold text-white" href="https://github.com/andrewmuhn/harry-potter-spell-book"><span>Git Hub Repo</span></a>
     </header>
     <main>
-        <form id="search-form">
-            <select name="spells" id="spell-select">
-            </select>
-            <div class="py-1 px-4 ml-40 my-8 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
+        <form class="bg-slate-700 pl-4" id="search-form">
+            <select name="spells" id="spell-select"></select>
+            <div class="py-1 px-4 my-4 inline-flex items-center font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800">
                 <button type="submit">Search</button>
             </div>
         </form>
         <div id="spell-cards">
             <div class="w-1/2 border-solid border-black-300 rounded-lg shadow-xl dark:bg-gray-800"></div>
-            </section>
         </div>
-
-        <!-- TODO: generate favorite list from local storage -->       
+        <!-- TODO: generate favorite list from local storage -->      
         <div id="favorite-spells">
-            <header>
+            <header class="bg-slate-900">
                 <div class="ml-4 text-lg font-bold font-sans">
-                    <h2>Favorite Spells</h2>
+                    <h2 class="text-[28px] font-bold text-white">Favorite Spells</h2>
                 </div>
             </header>
 
-            <section class="favCards"></section>
+            <section class="favCards flex flex-wrap"></section>
 
         </div>
     </main>

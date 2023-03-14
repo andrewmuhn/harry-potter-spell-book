@@ -99,9 +99,9 @@ const newFavCard = (index, data, i) => {
   spellDescriptionEl.setAttribute('id', 'spell-description');
   spellDescriptionEl.textContent = spellDescription;
   let unfavoriteButton = document.createElement('button');
-  unfavoriteButton.setAttribute('class', 'unFavoriteButton');
-  unfavoriteButton.setAttribute('data-index', i);
-  unfavoriteButton.textContent = 'unFavorite';
+
+  unfavoriteButton.setAttribute('id', 'unFavoriteButton');
+  unfavoriteButton.textContent = 'Unfavorite';
 
   ttsButton.append(ttsIcon);
   cardHeader.append(ttsButton);
