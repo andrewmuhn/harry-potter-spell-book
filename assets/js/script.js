@@ -72,13 +72,13 @@ const newCard = (index, data) => {
   spellCardEl.append(cardEl);
   cardEl.append(favoriteButton);
 
-  ttsButton.addEventListener('click', function(){
+  ttsButton.addEventListener('click', function () {
     responsiveVoice.speak(spellName);
   });
 }
 
 //handles dom manip and creation of favorite list card
-const newFavCard = (index, data) => {
+const newFavCard = (index, data, i) => {
   let spellName = data[index].name;
   let spellDescription = data[index].description;
 
@@ -90,7 +90,7 @@ const newFavCard = (index, data) => {
   ttsButton.setAttribute('id', 'favTextSpeechButton');
   let ttsIcon = document.createElement('i');
   ttsIcon.setAttribute('class', 'fa-solid fa-volume-high')
-  
+
   let spellNameEl = document.createElement('p');
   spellNameEl.setAttribute('id', 'spell-name');
   spellNameEl.textContent = spellName;
@@ -99,6 +99,7 @@ const newFavCard = (index, data) => {
   spellDescriptionEl.setAttribute('id', 'spell-description');
   spellDescriptionEl.textContent = spellDescription;
   let unfavoriteButton = document.createElement('button');
+
   unfavoriteButton.setAttribute('id', 'unFavoriteButton');
   unfavoriteButton.textContent = 'Unfavorite';
 
@@ -110,9 +111,10 @@ const newFavCard = (index, data) => {
   favSpellCardEl.append(cardEl);
   cardEl.append(unfavoriteButton);
 
-  ttsButton.addEventListener('click', function(){
+  ttsButton.addEventListener('click', function () {
     responsiveVoice.speak(spellName);
   });
+  unfavoriteButton.addEventListener('click', handleDelete);
 }
 
 //displays a random card on load
@@ -143,15 +145,15 @@ const checkFavDupes = (count, list) => {
   var spellName = document.querySelector("#spell-name").textContent;
   var spellArray = [];
 
-  for(var i = 0; i < count; i++){
-    if(list[i].textContent.includes(spellName)){
+  for (var i = 0; i < count; i++) {
+    if (list[i].textContent.includes(spellName)) {
       spellArray.push(list[i]);
       console.log(spellArray);
       console.log("Dupe Found, ignoring addition of card.");
       return;
     }
   }
-  
+
   //If none were found, finds card and adds it.
   console.log("No Dupes Found.");
   for (let i = 0; i < dataHolder.length; i++) {
@@ -174,7 +176,7 @@ const favoriteCard = () => {
 
   //Checks if the list of spells is empty or not.
   //If it is not empty, run CheckFavDupes().
-  if(favSpellsCount === 0){
+  if (favSpellsCount === 0) {
     //finds specific spell and passes it in for this session.
     for (let i = 0; i < dataHolder.length; i++) {
       if (dataHolder[i].name === spellName) {
@@ -183,29 +185,42 @@ const favoriteCard = () => {
         newFavCard(i, dataHolder);
       }
     }
-  }else{
+  } else {
     //Looks for duplicate favorites
     checkFavDupes(favSpellsCount, favSpells);
   }
 }
 
 //Generates favorites from local storage and counts favorites
-function showFavorites(data){
+function showFavorites(data) {
   const favCardsArray = JSON.parse(localStorage.getItem('FavoriteSpells'));
-  if(!favCardsArray){
+  if (!favCardsArray) {
     return;
   }
 
-  for(var i = 0; i < favCardsArray.length; i++){
+  for (var i = 0; i < favCardsArray.length; i++) {
     var spellName = favCardsArray[i];
     console.log(spellName);
     for (var j = 0; j < data.length; j++) {
       if (data[j].name === spellName) {
-        newFavCard(j, data);
-        
+        newFavCard(j, data, i);
+
       }
     }
   }
+}
+
+const handleDelete = (event) => {
+  let spellIndex = event.target.getAttribute('data-index');
+  let storedSpells = JSON.parse(localStorage.getItem('FavoriteSpells'));
+  console.log(event.target);
+  console.log(spellIndex);
+  console.log(storedSpells);
+  storedSpells.splice(spellIndex, 1);
+  console.log(storedSpells);
+  localStorage.setItem('FavoriteSpells', JSON.stringify(storedSpells));
+  favSpellCardEl.innerHTML = '';
+  showFavorites(dataHolder);
 }
 
 //Initial call to hp-api to get spell list
@@ -217,7 +232,8 @@ searchFormEl.addEventListener('submit', handleFormSubmit);
 //Listener for Favorite Button
 const favoriteButton = () => {
   favButton = document.querySelector("#favoriteButton");
-  favButton.addEventListener("click", function(){
+  favButton.addEventListener("click", function () {
     favoriteCard();
   });
 }
+
