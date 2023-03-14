@@ -62,6 +62,7 @@ const newCard = (index, data) => {
   spellDescriptionEl.textContent = spellDescription;
   let favoriteButton = document.createElement('button');
   favoriteButton.setAttribute('id', 'favoriteButton');
+  favoriteButton.setAttribute('class', 'bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded');
   favoriteButton.textContent = 'Favorite';
 
   ttsButton.append(ttsIcon);
@@ -100,7 +101,8 @@ const newFavCard = (index, data, i) => {
   spellDescriptionEl.textContent = spellDescription;
   let unfavoriteButton = document.createElement('button');
 
-  unfavoriteButton.setAttribute('id', 'unFavoriteButton');
+  unfavoriteButton.setAttribute('class', 'unFavoriteButton bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded');
+  unfavoriteButton.setAttribute('data-index', i);
   unfavoriteButton.textContent = 'Unfavorite';
 
   ttsButton.append(ttsIcon);
