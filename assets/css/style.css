@@ -4,7 +4,7 @@
 }
 
 h1 {
-    font-family: 'Harry Potter', sans-serif;    
+    font-family: 'Harry Potter', sans-serif;
     color: #ffffff;
     filter: drop-shadow(.3vmin .3vmin .3rem rgb(255, 212, 170));
 }
@@ -16,9 +16,6 @@ header {
     padding: 1vmin;
 }
 
-#search-form {
-    margin-left: 50px;
-}
 
 #spell-select {
     border: solid black 2px;
@@ -57,7 +54,8 @@ header {
     margin-top: 10px;
 }
 
-#spell-name, #spell-description {
+#spell-name,
+#spell-description {
     font-family: 'Signika', sans-serif;
 }
 
