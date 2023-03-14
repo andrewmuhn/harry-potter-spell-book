@@ -29,7 +29,7 @@ header {
     box-shadow: 5px 5px rgb(34, 34, 34);
     border-radius: 10px;
     filter: drop-shadow(5px 5px 1rem rgb(160, 172, 177));
-    height: 400px;
+    height: 350px;
     width: 250px;
     background-color: #ECECEC;
 }
@@ -43,7 +43,7 @@ header {
 .card header p {
     inline-size: var(--spellTitleInline);
     word-wrap: break-word;
-    font-size: 26px;
+    font-size: 22px;
     text-align: center;
 }
 
