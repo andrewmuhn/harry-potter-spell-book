@@ -99,9 +99,10 @@ const newFavCard = (index, data, i) => {
   spellDescriptionEl.setAttribute('id', 'spell-description');
   spellDescriptionEl.textContent = spellDescription;
   let unfavoriteButton = document.createElement('button');
-  unfavoriteButton.setAttribute('class', 'unFavoriteButton');
+
   unfavoriteButton.setAttribute('data-index', i);
-  unfavoriteButton.textContent = 'unFavorite';
+  unfavoriteButton.setAttribute('id', 'unFavoriteButton');
+  unfavoriteButton.textContent = 'Unfavorite';
 
   ttsButton.append(ttsIcon);
   cardHeader.append(ttsButton);
@@ -114,6 +115,7 @@ const newFavCard = (index, data, i) => {
   ttsButton.addEventListener('click', function () {
     responsiveVoice.speak(spellName);
   });
+  unfavoriteButton.addEventListener('click', handleDelete);
 }
 
 //displays a random card on load
@@ -203,7 +205,6 @@ function showFavorites(data) {
     for (var j = 0; j < data.length; j++) {
       if (data[j].name === spellName) {
         newFavCard(j, data, i);
-
       }
     }
   }
@@ -236,4 +237,3 @@ const favoriteButton = () => {
   });
 }
 
-favSpellCardEl.addEventListener('click', handleDelete)

@@ -5,13 +5,15 @@
 
 h1 {
     font-family: 'Harry Potter', sans-serif;    
-    color: #e6e600;
+    color: #ffffff;
+    filter: drop-shadow(.3vmin .3vmin .3rem rgb(255, 212, 170));
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1vmin;
 }
 
 #search-form {
@@ -39,7 +41,6 @@ header {
     justify-content: center;
     align-items: center;
     border-radius: 25px 25px 25px 25px;
-    background-color: #ffffb3;
 }
 
 .card header p {
@@ -58,4 +59,15 @@ header {
 
 #spell-name, #spell-description {
     font-family: 'Signika', sans-serif;
+}
+
+#favorite-spells {
+
+}
+
+.favCards {
+    display: grid;
+    grid-auto-flow: column;
+
+    overflow-x: auto;
 }
