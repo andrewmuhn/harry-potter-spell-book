@@ -16,3 +16,5 @@ Harry Potter Character/Spell API: https://hp-api.onrender.com/
 
 ## Deployed Link  
 https://andrewmuhn.github.io/harry-potter-spell-book/
+
+Screenshot 2023-03-14 at 8.04.03 PM.png
